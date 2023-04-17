@@ -20,7 +20,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.099, y: 0.406, z: -10.39237}
+        value: {x: 0.149, y: 0.38, z: -10.39237}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -36,7 +36,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.417, y: 2.35, z: -10.39237}
+        value: {x: 0.454, y: 0.21, z: -10.39237}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -46,13 +46,13 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: WallCheckerUp
+    path: WallCheckDown
   - curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.491, y: 0.628, z: -10.39237}
+        value: {x: 0.349, y: 2.17, z: -10.43}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -62,7 +62,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: WallCheckerDown
+    path: WallCheckUp
   m_ScaleCurves: []
   m_FloatCurves:
   - curve:
@@ -70,7 +70,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.19395542
+        value: 0.045788288
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -89,7 +89,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1.0454807
+        value: 0.6563215
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -102,25 +102,6 @@ AnimationClip:
     attribute: m_Size.x
     path: 
     classID: 61
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.2
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Radius
-    path: GroundChecker
-    classID: 58
     script: {fileID: 0}
   m_PPtrCurves:
   - curve:
@@ -158,14 +139,14 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3358984393
+      path: 2583399410
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 1620134181
+      path: 58355630
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -183,13 +164,6 @@ AnimationClip:
       attribute: 4197328169
       script: {fileID: 0}
       typeID: 61
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 531758975
-      attribute: 1984117138
-      script: {fileID: 0}
-      typeID: 58
       customType: 0
       isPPtrCurve: 0
     pptrCurveMapping:
@@ -223,7 +197,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.099
+        value: 0.149
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -242,7 +216,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.406
+        value: 0.38
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -280,7 +254,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.19395542
+        value: 0.045788288
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -299,7 +273,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1.0454807
+        value: 0.6563215
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -318,26 +292,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.2
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_Radius
-    path: GroundChecker
-    classID: 58
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.417
+        value: 0.454
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -348,7 +303,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: WallCheckerUp
+    path: WallCheckDown
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -356,7 +311,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 2.35
+        value: 0.21
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -367,7 +322,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: WallCheckerUp
+    path: WallCheckDown
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -386,7 +341,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: WallCheckerUp
+    path: WallCheckDown
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -394,7 +349,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.491
+        value: 0.349
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -405,7 +360,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: WallCheckerDown
+    path: WallCheckUp
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -413,7 +368,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.628
+        value: 2.17
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -424,7 +379,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: WallCheckerDown
+    path: WallCheckUp
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -432,7 +387,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -10.39237
+        value: -10.43
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -443,7 +398,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: WallCheckerDown
+    path: WallCheckUp
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []
