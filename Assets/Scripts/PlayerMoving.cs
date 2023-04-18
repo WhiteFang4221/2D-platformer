@@ -10,7 +10,6 @@ public static class PlayerMovingAnimator
     public static class Params
     {
         public const string MoveX = "MoveX";
-        public const string AttackTrigger = "AttackTrigger";
         public const string IsOnGround = "IsOnGround";
         public const string AirSpeedY = "AirSpeedY";
         public const string RollTrigger = "RollTrigger";
@@ -22,7 +21,6 @@ public static class PlayerMovingAnimator
         {
             public const string Idle = nameof(Idle);
             public const string Run = nameof(Run);
-            public const string Attack1 = nameof(Attack1);
             public const string Jump = nameof(Jump);
             public const string Fall = nameof(Fall);
             public const string Roll = nameof(Roll);
@@ -33,7 +31,7 @@ public static class PlayerMovingAnimator
 public class PlayerMoving : MonoBehaviour
 {
     [SerializeField] private float _speed = 8f;
-    [SerializeField] private float _jumpForce = 125f;
+    [SerializeField] private float _jumpForce = 20f;
     [SerializeField] private Transform _groundChecker;
 
     [SerializeField] private Transform _wallCheckerUp;
@@ -45,6 +43,8 @@ public class PlayerMoving : MonoBehaviour
     [SerializeField] private float _slideSpeed = 4f;
 
     private Vector2 _moveVector;
+    private Vector2 _jumpAngle = new Vector2(10f, 17f);
+
     private Rigidbody2D _rigidbody;
     private Animator _animator;
 
@@ -52,9 +52,23 @@ public class PlayerMoving : MonoBehaviour
     private float _groundCheckRadius;
     private float _wallCheckRadius;
 
+    private float _rollPower = 15;
+    private float _rollingTime = 0.5f;
+    private float _rollCooldown = 0.5f;
+
+    private float _wallJumpTime = 0.3f;
+    private float _timerWallJump;
+
     private bool _isfaceRight = true;
+
     private bool _isOnGround;
     private bool _isOnWall;
+
+    private bool _isCanRoll = true;
+    private bool _isRolling;
+
+    private bool _isWallJumping;
+
 
 
     private void Start()
@@ -68,6 +82,7 @@ public class PlayerMoving : MonoBehaviour
     
     private void Update()
     {
+
         if (!_isRolling && !_isWallJumping)
         {
         Walk();
@@ -121,13 +136,6 @@ public class PlayerMoving : MonoBehaviour
 
     }
 
-    private bool _isCanRoll = true;
-    private bool _isRolling;
-    private float _rollPower = 15;
-    private float _rollingTime = 0.5f;
-    private float _rollCooldown = 0.5f;
-
-
     private void CheckWall()
     {
         _isOnWall = Physics2D.OverlapCircle(_wallCheckerUp.position, _wallCheckRadius, _wall) && Physics2D.OverlapCircle(_wallCheckerDown.position, _wallCheckRadius, _wall);
@@ -135,8 +143,7 @@ public class PlayerMoving : MonoBehaviour
 
     private void MoveOnWall()
     {
-
-        if (_isOnWall && !_isOnGround && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+        if (_isOnWall && !_isOnGround && _rigidbody.velocity.y < 2)
         {
             _rigidbody.gravityScale = 0;
             _rigidbody.velocity = new Vector2(0, -_slideSpeed);
@@ -148,7 +155,6 @@ public class PlayerMoving : MonoBehaviour
             _rigidbody.gravityScale = _gravityDefault;
             _animator.SetBool(PlayerMovingAnimator.Params.IsOnWall, false);
         }
-
     }
 
 
@@ -177,10 +183,7 @@ public class PlayerMoving : MonoBehaviour
         _isCanRoll = true;
     }
 
-    private bool _isWallJumping;
-    private float _wallJumpTime = 0.2f;
-    private float _timerWallJump;
-    private Vector2 _jumpAngle = new Vector2(10f, 15f);
+    
 
     private void WallJump()
     {
