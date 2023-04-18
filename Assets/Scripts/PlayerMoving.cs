@@ -15,6 +15,8 @@ public static class PlayerMovingAnimator
         public const string AirSpeedY = "AirSpeedY";
         public const string RollTrigger = "RollTrigger";
         public const string IsOnWall = "IsOnWall";
+        public const string IsRolling = "IsRolling";
+        public const string JumpTrigger = "JumpTrigger";
 
         public static class States
         {
@@ -31,7 +33,7 @@ public static class PlayerMovingAnimator
 public class PlayerMoving : MonoBehaviour
 {
     [SerializeField] private float _speed = 8f;
-    [SerializeField] private float _jumpForce = 25f;
+    [SerializeField] private float _jumpForce = 125f;
     [SerializeField] private Transform _groundChecker;
 
     [SerializeField] private Transform _wallCheckerUp;
@@ -73,7 +75,7 @@ public class PlayerMoving : MonoBehaviour
 
         Reflect();
 
-        if (Input.GetKeyDown(KeyCode.Space) && _isOnGround == true)
+        if (Input.GetKeyDown(KeyCode.Space) && _isOnGround == true && _isRolling == false)
         {
             Jump();
         }
@@ -108,7 +110,7 @@ public class PlayerMoving : MonoBehaviour
     private void Jump()
     {     
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
-
+        _animator.SetTrigger(PlayerMovingAnimator.Params.JumpTrigger);
     }
 
     private void CheckGround()
@@ -141,12 +143,10 @@ public class PlayerMoving : MonoBehaviour
             _animator.SetBool(PlayerMovingAnimator.Params.IsOnWall, true);
         }
 
-
         else if (!_isOnWall || _isOnGround)
         {
             _rigidbody.gravityScale = _gravityDefault;
             _animator.SetBool(PlayerMovingAnimator.Params.IsOnWall, false);
-
         }
 
     }
@@ -158,6 +158,8 @@ public class PlayerMoving : MonoBehaviour
         _isRolling = true;
         _rigidbody.velocity = new Vector2(0, 0);
         _animator.SetTrigger(PlayerMovingAnimator.Params.RollTrigger);
+        
+        _animator.SetBool(PlayerMovingAnimator.Params.IsRolling, _isRolling);
 
         if (_isfaceRight)
         {
@@ -170,34 +172,36 @@ public class PlayerMoving : MonoBehaviour
 
         yield return new WaitForSeconds(_rollingTime);
         _isRolling = false;
+        _animator.SetBool(PlayerMovingAnimator.Params.IsRolling, _isRolling);
         yield return new WaitForSeconds(_rollCooldown);
         _isCanRoll = true;
     }
 
-    private bool _isWallJumping = false;
+    private bool _isWallJumping;
+    private float _wallJumpTime = 0.2f;
     private float _timerWallJump;
-    private float _wallJumpTime = 0.5f;
-    private Vector2 _jumpAngle = new Vector2(1, 1);
+    private Vector2 _jumpAngle = new Vector2(10f, 15f);
 
     private void WallJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isOnWall && _isOnGround == false)
+        if (_isOnGround == false && _isOnWall && Input.GetKeyDown(KeyCode.Space) && _rigidbody.velocity.y < 0)
         {
             _isWallJumping = true;
             _moveVector.x = 0;
             transform.localScale *= new Vector2(-1, 1);
             _isfaceRight = !_isfaceRight;
-            _rigidbody.velocity = new Vector2(transform.localScale.x * _jumpAngle.x, _jumpAngle.y);
+
             _rigidbody.gravityScale = _gravityDefault;
             _rigidbody.velocity = new Vector2(0, 0);
+            _rigidbody.velocity = new Vector2(transform.localScale.x * _jumpAngle.x, _jumpAngle.y);
+        }
 
-            if ((_timerWallJump += Time.deltaTime) >= _wallJumpTime)
+        if (_isWallJumping && (_timerWallJump += Time.deltaTime) >= _wallJumpTime)
+        {
+            if (_isOnWall || _isOnGround || Input.GetAxisRaw("Horizontal") != 0)
             {
-                if (_isOnWall || _isOnGround || Input.GetAxis("Horizontal") != 0)
-                {
-                    _isWallJumping = false;
-                    _timerWallJump = 0;
-                }
+                _isWallJumping = false;
+                _timerWallJump = 0;
             }
         }
     }
