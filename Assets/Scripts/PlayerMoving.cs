@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 
-public static class PlayerMovingAnimator
+public static class PlayerAnimator
 {
     public static class Params
     {
@@ -16,6 +17,7 @@ public static class PlayerMovingAnimator
         public const string IsOnWall = "IsOnWall";
         public const string IsRolling = "IsRolling";
         public const string JumpTrigger = "JumpTrigger";
+        public const string DamageTrigger = "DamageTrigger";
 
         public static class States
         {
@@ -24,6 +26,7 @@ public static class PlayerMovingAnimator
             public const string Jump = nameof(Jump);
             public const string Fall = nameof(Fall);
             public const string Roll = nameof(Roll);
+            public const string Hurt = nameof(Hurt);
         }
     }
 }
@@ -82,7 +85,6 @@ public class PlayerMoving : MonoBehaviour
     
     private void Update()
     {
-
         if (!_isRolling && !_isWallJumping)
         {
         Walk();
@@ -109,7 +111,7 @@ public class PlayerMoving : MonoBehaviour
     private void Walk()
     {
         _moveVector.x = Input.GetAxis("Horizontal");
-        _animator.SetFloat(PlayerMovingAnimator.Params.MoveX, Mathf.Abs(_moveVector.x));
+        _animator.SetFloat(PlayerAnimator.Params.MoveX, Mathf.Abs(_moveVector.x));
         _rigidbody.velocity = new Vector2(_moveVector.x * _speed, _rigidbody.velocity.y);
     }
 
@@ -125,14 +127,14 @@ public class PlayerMoving : MonoBehaviour
     private void Jump()
     {     
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
-        _animator.SetTrigger(PlayerMovingAnimator.Params.JumpTrigger);
+        _animator.SetTrigger(PlayerAnimator.Params.JumpTrigger);
     }
 
     private void CheckGround()
     {
         _isOnGround = Physics2D.OverlapCircle(_groundChecker.position, _groundCheckRadius, _groundLayer);
-        _animator.SetBool(PlayerMovingAnimator.Params.IsOnGround, _isOnGround);
-        _animator.SetFloat(PlayerMovingAnimator.Params.AirSpeedY, _rigidbody.velocity.y);
+        _animator.SetBool(PlayerAnimator.Params.IsOnGround, _isOnGround);
+        _animator.SetFloat(PlayerAnimator.Params.AirSpeedY, _rigidbody.velocity.y);
 
     }
 
@@ -147,13 +149,13 @@ public class PlayerMoving : MonoBehaviour
         {
             _rigidbody.gravityScale = 0;
             _rigidbody.velocity = new Vector2(0, -_slideSpeed);
-            _animator.SetBool(PlayerMovingAnimator.Params.IsOnWall, true);
+            _animator.SetBool(PlayerAnimator.Params.IsOnWall, true);
         }
 
         else if (!_isOnWall || _isOnGround)
         {
             _rigidbody.gravityScale = _gravityDefault;
-            _animator.SetBool(PlayerMovingAnimator.Params.IsOnWall, false);
+            _animator.SetBool(PlayerAnimator.Params.IsOnWall, false);
         }
     }
 
@@ -163,9 +165,9 @@ public class PlayerMoving : MonoBehaviour
         _isCanRoll = false;
         _isRolling = true;
         _rigidbody.velocity = new Vector2(0, 0);
-        _animator.SetTrigger(PlayerMovingAnimator.Params.RollTrigger);
+        _animator.SetTrigger(PlayerAnimator.Params.RollTrigger);
         
-        _animator.SetBool(PlayerMovingAnimator.Params.IsRolling, _isRolling);
+        _animator.SetBool(PlayerAnimator.Params.IsRolling, _isRolling);
 
         if (_isfaceRight)
         {
@@ -178,12 +180,10 @@ public class PlayerMoving : MonoBehaviour
 
         yield return new WaitForSeconds(_rollingTime);
         _isRolling = false;
-        _animator.SetBool(PlayerMovingAnimator.Params.IsRolling, _isRolling);
+        _animator.SetBool(PlayerAnimator.Params.IsRolling, _isRolling);
         yield return new WaitForSeconds(_rollCooldown);
         _isCanRoll = true;
     }
-
-    
 
     private void WallJump()
     {
@@ -193,9 +193,7 @@ public class PlayerMoving : MonoBehaviour
             _moveVector.x = 0;
             transform.localScale *= new Vector2(-1, 1);
             _isfaceRight = !_isfaceRight;
-
             _rigidbody.gravityScale = _gravityDefault;
-            _rigidbody.velocity = new Vector2(0, 0);
             _rigidbody.velocity = new Vector2(transform.localScale.x * _jumpAngle.x, _jumpAngle.y);
         }
 
