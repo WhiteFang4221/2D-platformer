@@ -54,6 +54,7 @@ public class PlayerMoving : MonoBehaviour
     private float _gravityDefault;
     private float _groundCheckRadius;
     private float _wallCheckRadius;
+    private float _maxSpeedYstickingWall = 2f;
 
     private float _rollPower = 15;
     private float _rollingTime = 0.5f;
@@ -145,7 +146,7 @@ public class PlayerMoving : MonoBehaviour
 
     private void MoveOnWall()
     {
-        if (_isOnWall && !_isOnGround && _rigidbody.velocity.y < 2)
+        if (_isOnWall && !_isOnGround && _rigidbody.velocity.y < _maxSpeedYstickingWall)
         {
             _rigidbody.gravityScale = 0;
             _rigidbody.velocity = new Vector2(0, -_slideSpeed);
@@ -171,11 +172,11 @@ public class PlayerMoving : MonoBehaviour
 
         if (_isfaceRight)
         {
-            _rigidbody.AddForce(new Vector2(_rollPower * 1, 0f), ForceMode2D.Impulse);
+            _rigidbody.AddForce(new Vector2(_rollPower, 0f), ForceMode2D.Impulse);
         }
         else
         {
-            _rigidbody.AddForce(new Vector2(_rollPower * (-1), 0f), ForceMode2D.Impulse);
+            _rigidbody.AddForce(new Vector2(_rollPower*(-1), 0f), ForceMode2D.Impulse);
         }
 
         yield return new WaitForSeconds(_rollingTime);

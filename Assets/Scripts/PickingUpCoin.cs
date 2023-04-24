@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+[RequireComponent(typeof(Animator))]
 
-public class CoinsCollecting : MonoBehaviour
+public class PickingUpCoin : MonoBehaviour
 {
     private AudioSource _audioSource;
 
@@ -16,12 +17,12 @@ public class CoinsCollecting : MonoBehaviour
     {
         if (collision.TryGetComponent<Coin>(out Coin coin))
         {
-            PlayCollectingSound();
+            PlayPickingSound();
             Destroy(collision.gameObject);
         }
     }
 
-    private void PlayCollectingSound()
+    private void PlayPickingSound()
     {
         _audioSource.Play();
     }
